@@ -1,0 +1,42 @@
+command reference organized into clean, scannable tables with short descriptions for easy access.
+## 🔌 Virtual Environment (venv) Management
+
+| Command | Description |
+|---|---|
+| python -m venv venv | Creates a new local virtual environment folder named venv. |
+| venv\Scripts\Activate.ps1 | Activates environment inside Windows PowerShell. |
+| venv\Scripts\activate | Activates environment inside Windows Command Prompt. |
+| pip install -r requirements.txt | Installs project backend dependencies listed in the file. |
+| deactivate | Shuts down the current active virtual environment safely. |
+
+## 🏗️ Project Code Initialization
+
+| Command | Description |
+|---|---|
+| django-admin startproject Dproject . | Generates Django code files instantly using local python. |
+| docker compose run --rm web django-admin startproject Dproject . | Generates Django code files using a temporary Docker container. |
+
+## 🐳 Docker Container Operations
+
+| Command | Description |
+|---|---|
+| docker compose up --build | Builds application images and starts all services in terminal foreground. |
+| docker compose up -d | Boots up all services quietly in background detached mode. |
+| docker compose down | Stops running containers safely without destroying database files. |
+| docker compose down -v | Stops containers and completely wipes out stored database volumes. |
+| docker compose ps -a |  list all containers associated with your project, along with their current status. |
+|docker rm <container_id> | remove a container by its ID| use docker rm -f <container_id> |Docker will refuse to delete an active container and throw an error. You must force-delete it:|
+| docker compose logs | Prints out execution and error histories from your running containers. |
+
+## 🐍 Django Actions Inside Docker
+(Note: Run these in a new terminal window while containers are running).
+
+| Command | Description |
+|---|---|
+| docker compose exec web python manage.py migrate | Applies database structure upgrades and setups core Django tables. |
+| docker compose exec web python manage.py makemigrations | Scans models.py files and prepares dynamic table update instructions. |
+| docker compose exec web python manage.py createsuperuser | Registers a master administrator login record for your dashboard. |
+| docker compose exec web python manage.py startapp <name> | Sets up a fresh code module directory for custom feature building. |
+
+
+
