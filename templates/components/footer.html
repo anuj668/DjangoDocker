@@ -1,0 +1,822 @@
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+
+<footer
+    id="contact">
+
+
+<div class="container footer-grid">
+
+
+    <div class="logo">
+
+        <div class="logo-circle">
+            PIM
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                PIM v3
+            </strong>
+
+            <small>
+                FILM INTELLIGENCE
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <div>
+
+        <div class="footer-title">
+            Platform
+        </div>
+
+        <a
+            href="#platform"
+            class="footer-link">
+            Overview
+        </a>
+
+        <a
+            href="#features"
+            class="footer-link">
+            Features
+        </a>
+
+        <a
+            href="#movies"
+            class="footer-link">
+            Movies
+        </a>
+
+    </div>
+
+
+
+    <div>
+
+        <div class="footer-title">
+            Company
+        </div>
+
+        <a
+            href="#"
+            class="footer-link">
+            About Us
+        </a>
+
+        <a
+            href="#contact"
+            class="footer-link">
+            Contact
+        </a>
+
+        <a
+            href="#"
+            class="footer-link">
+            Careers
+        </a>
+
+    </div>
+
+
+
+    <div>
+
+        <div class="footer-title">
+            Resources
+        </div>
+
+        <a
+            href="#"
+            class="footer-link">
+            Help Center
+        </a>
+
+        <a
+            href="#"
+            class="footer-link">
+            Privacy Policy
+        </a>
+
+        <a
+            href="#"
+            class="footer-link">
+            Terms
+        </a>
+
+    </div>
+
+
+
+    <div class="copyright">
+
+        © 2026 Blow Horn Media Pvt. Ltd.
+
+        <br>
+
+        PIM v3 — Producer Intelligence Model
+
+    </div>
+
+
+</div>
+
+</footer>
+
+
+
+<!-- ============================================================
+     TOAST
+============================================================= -->
+
+<div
+    id="toast"
+    class="toast">
+
+</div>
+
+
+
+<script>
+
+
+/* ==============================================================
+   SAMPLE DATABASE
+
+   For now this acts like our database.
+
+   Later Django will provide this data.
+
+   Example future flow:
+
+   MySQL
+      ↓
+   Django Model
+      ↓
+   Django View
+      ↓
+   HTML Template / API
+      ↓
+   Dashboard
+
+============================================================== */
+
+
+const movieData = [
+
+    {
+        id: 1,
+
+        title: "Project Alpha",
+
+        status: "Pre-Release",
+
+        releaseConfidence: "HIGH",
+
+        confidencePercentage: 86,
+
+        audienceIntent: 62.4,
+
+        sentiment: 78.6,
+
+        cityCount: 12,
+
+        budget: "₹45 Cr",
+
+        expectedRelease: "15 Oct 2026"
+    },
+
+
+    {
+        id: 2,
+
+        title: "Midnight Stories",
+
+        status: "Pre-Release",
+
+        releaseConfidence: "MEDIUM",
+
+        confidencePercentage: 71,
+
+        audienceIntent: 55.8,
+
+        sentiment: 69.2,
+
+        cityCount: 9,
+
+        budget: "₹28 Cr",
+
+        expectedRelease: "22 Nov 2026"
+    },
+
+
+    {
+        id: 3,
+
+        title: "The Last Journey",
+
+        status: "Released",
+
+        releaseConfidence: "HIGH",
+
+        confidencePercentage: 92,
+
+        audienceIntent: 81.7,
+
+        sentiment: 88.4,
+
+        cityCount: 21,
+
+        budget: "₹72 Cr",
+
+        expectedRelease: "Released"
+    }
+
+
+];
+
+
+
+/* ==============================================================
+   CALCULATE DASHBOARD
+============================================================== */
+
+
+function calculateDashboard() {
+
+
+    const totalMovies =
+        movieData.length;
+
+
+    let audienceTotal = 0;
+
+    let sentimentTotal = 0;
+
+    let confidenceTotal = 0;
+
+    let cityTotal = 0;
+
+
+    movieData.forEach(movie => {
+
+        audienceTotal +=
+            movie.audienceIntent;
+
+        sentimentTotal +=
+            movie.sentiment;
+
+        confidenceTotal +=
+            movie.confidencePercentage;
+
+        cityTotal +=
+            movie.cityCount;
+
+    });
+
+
+    return {
+
+        audience:
+            (
+                audienceTotal /
+                totalMovies
+            ).toFixed(1),
+
+        sentiment:
+            (
+                sentimentTotal /
+                totalMovies
+            ).toFixed(1),
+
+        confidence:
+            Math.round(
+                confidenceTotal /
+                totalMovies
+            ),
+
+        cities:
+            cityTotal
+
+    };
+
+}
+
+
+
+/* ==============================================================
+   UPDATE DASHBOARD METRICS
+============================================================== */
+
+
+function updateDashboard() {
+
+
+    const data =
+        calculateDashboard();
+
+
+    document.getElementById(
+        "audienceIntent"
+    ).textContent =
+        data.audience + "%";
+
+
+    document.getElementById(
+        "sentimentScore"
+    ).textContent =
+        data.sentiment;
+
+
+    document.getElementById(
+        "confidencePercentage"
+    ).textContent =
+        data.confidence + "%";
+
+
+    document.getElementById(
+        "cityCount"
+    ).textContent =
+        data.cities +
+        " City Signals";
+
+
+    /* CONFIDENCE LEVEL */
+
+    let confidenceText;
+
+
+    if (data.confidence >= 80) {
+
+        confidenceText = "HIGH";
+
+    }
+
+    else if (data.confidence >= 60) {
+
+        confidenceText = "MEDIUM";
+
+    }
+
+    else {
+
+        confidenceText = "LOW";
+
+    }
+
+
+    document.getElementById(
+        "releaseConfidence"
+    ).textContent =
+        confidenceText;
+
+
+    /* AUDIENCE GROWTH */
+
+    const growth =
+        (
+            data.audience - 50
+        ).toFixed(1);
+
+
+    document.getElementById(
+        "audienceGrowth"
+    ).textContent =
+        "↑ " +
+        growth +
+        " pts";
+
+}
+
+
+
+/* ==============================================================
+   AUDIENCE CHART
+============================================================== */
+
+
+function createAudienceChart() {
+
+
+    const container =
+        document.getElementById(
+            "audienceChart"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const values = [
+
+        25,
+        38,
+        32,
+        48,
+        42,
+        60,
+        53,
+        68,
+        62,
+        82
+
+    ];
+
+
+    values.forEach(value => {
+
+
+        const bar =
+            document.createElement(
+                "div"
+            );
+
+
+        bar.className =
+            "chart-bar";
+
+
+        bar.style.height =
+            value + "%";
+
+
+        container.appendChild(
+            bar
+        );
+
+    });
+
+}
+
+
+
+/* ==============================================================
+   CITY CHART
+============================================================== */
+
+
+function createCityChart() {
+
+
+    const container =
+        document.getElementById(
+            "cityChart"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const values = [
+
+        30,
+        55,
+        43,
+        72,
+        55,
+        82,
+        62,
+        92
+
+    ];
+
+
+    values.forEach(value => {
+
+
+        const bar =
+            document.createElement(
+                "div"
+            );
+
+
+        bar.className =
+            "city-bar";
+
+
+        bar.style.height =
+            value + "%";
+
+
+        container.appendChild(
+            bar
+        );
+
+    });
+
+}
+
+
+
+/* ==============================================================
+   DISPLAY MOVIES
+============================================================== */
+
+
+function displayMovies() {
+
+
+    const container =
+        document.getElementById(
+            "movieGrid"
+        );
+
+
+    container.innerHTML = "";
+
+
+    movieData.forEach(movie => {
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        card.className =
+            "movie-card";
+
+
+        card.innerHTML = `
+
+            <div class="movie-top">
+
+                <div class="movie-title">
+
+                    ${movie.title}
+
+                </div>
+
+                <div class="movie-status">
+
+                    ${movie.status}
+
+                </div>
+
+            </div>
+
+
+            <div class="movie-info">
+
+
+                <div class="movie-stat">
+
+                    <span>
+                        Release Confidence
+                    </span>
+
+                    <strong>
+                        ${movie.confidencePercentage}%
+                    </strong>
+
+                </div>
+
+
+                <div class="movie-stat">
+
+                    <span>
+                        Audience Intent
+                    </span>
+
+                    <strong>
+                        ${movie.audienceIntent}%
+                    </strong>
+
+                </div>
+
+
+                <div class="movie-stat">
+
+                    <span>
+                        Sentiment Score
+                    </span>
+
+                    <strong>
+                        ${movie.sentiment}
+                    </strong>
+
+                </div>
+
+
+                <div class="movie-stat">
+
+                    <span>
+                        Cities
+                    </span>
+
+                    <strong>
+                        ${movie.cityCount}
+                    </strong>
+
+                </div>
+
+
+                <div class="movie-stat">
+
+                    <span>
+                        Budget
+                    </span>
+
+                    <strong>
+                        ${movie.budget}
+                    </strong>
+
+                </div>
+
+
+                <div class="movie-stat">
+
+                    <span>
+                        Release Date
+                    </span>
+
+                    <strong>
+                        ${movie.expectedRelease}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+        container.appendChild(
+            card
+        );
+
+    });
+
+}
+
+
+
+/* ==============================================================
+   REFRESH
+============================================================== */
+
+
+function refreshDashboard() {
+
+
+    updateDashboard();
+
+    displayMovies();
+
+    createAudienceChart();
+
+    createCityChart();
+
+
+    showToast(
+        "Dashboard data refreshed successfully."
+    );
+
+}
+
+
+
+/* ==============================================================
+   TOAST
+============================================================== */
+
+
+function showToast(message) {
+
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2500
+    );
+
+}
+
+
+
+/* ==============================================================
+   REGISTRATION FORM
+
+   CURRENTLY:
+       Form → JavaScript
+
+   FUTURE:
+       Form → Django POST → Database
+
+============================================================== */
+
+
+document
+    .getElementById("registrationForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+
+            event.preventDefault();
+
+
+            const formData = {
+
+                name:
+                    document.getElementById(
+                        "fullName"
+                    ).value,
+
+                email:
+                    document.getElementById(
+                        "email"
+                    ).value,
+
+                mobile:
+                    document.getElementById(
+                        "mobile"
+                    ).value,
+
+                studio:
+                    document.getElementById(
+                        "studio"
+                    ).value,
+
+                role:
+                    document.getElementById(
+                        "role"
+                    ).value,
+
+                moviesPerYear:
+                    document.getElementById(
+                        "moviesPerYear"
+                    ).value,
+
+                country:
+                    document.getElementById(
+                        "country"
+                    ).value
+
+            };
+
+
+            console.log(
+                "Registration Data:",
+                formData
+            );
+
+
+            showToast(
+                "Account request submitted successfully."
+            );
+
+
+            this.reset();
+
+        }
+    );
+
+
+
+/* ==============================================================
+   INITIALIZE
+============================================================== */
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        refreshDashboard();
+
+    }
+);
+
+
+</script>

@@ -27,6 +27,7 @@ command reference organized into clean, scannable tables with short descriptions
 | docker compose ps -a |  list all containers associated with your project, along with their current status. |
 |docker rm <container_id> | remove a container by its ID| use docker rm -f <container_id> |Docker will refuse to delete an active container and throw an error. You must force-delete it:|
 | docker compose logs | Prints out execution and error histories from your running containers. |
+docker compose logs web --tail=100  logs error list
 
 ## 🐍 Django Actions Inside Docker
 (Note: Run these in a new terminal window while containers are running).
@@ -37,6 +38,207 @@ command reference organized into clean, scannable tables with short descriptions
 | docker compose exec web python manage.py makemigrations | Scans models.py files and prepares dynamic table update instructions. |
 | docker compose exec web python manage.py createsuperuser | Registers a master administrator login record for your dashboard. |
 | docker compose exec web python manage.py startapp <name> | Sets up a fresh code module directory for custom feature building. |
+
+#Create app
+docker compose exec web python manage.py startapp accounts
+docker compose exec web python manage.py startapp api
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+#####################################
+#
+#   Deoploy project on server
+#
+#####################################
+
+
+Phase 1: Server Preparation
+
+1.Buy a VPS: Get a Virtual Private Server (VPS) from providers like DigitalOcean, AWS EC2, Hetzner, or Linode. Select Ubuntu 24.04 LTS as the Operating System.
+
+2.SSH into Server: Open your terminal and connect to your server using the IP address provided by your host:
+    #cmd:ssh root@your_server_ip
+3.Update Packages: Refresh the server's package index:
+    #cmd:sudo apt update && sudo apt upgrade -y
+
+Phase 2: Install Docker and Git
+
+
+Run these commands on your remote server to install the necessary deployment engines:
+
+1.Install Docker & Component Plugins:
+    #cmd:sudo apt install docker.io docker-compose-v2 git -y
+2.Verify Installation: Ensure both tools are active:
+    #cmd:docker --version && docker compose version
+
+Phase 3: Clone Code and Configure Environment
+
+1.Clone Repository: Pull your code from GitHub onto the production server:
+    #cmd:git clone https://github.com
+    #cmd:cd YOUR_REPO_NAME
+2.Create Production Environment File: Create the hidden configuration file:
+    #nano .env
+
+3.Add Live Configurations: Paste your variables. Change DEBUG to False and generate a strong secret key for production safety:
+    env
+    DATABASE_NAME=production_db
+    DATABASE_USER=prod_user
+    DATABASE_PASSWORD=your_secure_password
+    DATABASE_HOST=db
+    DATABASE_PORT=5432
+    DEBUG=False
+    SECRET_KEY=generate_a_long_random_string_here
+    ALLOWED_HOSTS=your_domain.com,your_server_ip
+
+    ####(Press Ctrl+O, Enter, then Ctrl+X to save and exit the nano text editor).
+
+Phase 4: Launch the Containers
+
+1.Build and Run: Run the application stack in detached mode (background execution):
+    #cmd:docker compose up --build -d
+
+2.Database Migrations: If your Django app does not auto-migrate inside the entrypoint script, run it manually inside the container:
+    #docker compose exec web python manage.py migrate
+
+3.Create Admin User: Create your superuser account for backend database administration access:
+    #docker compose exec web python manage.py createsuperuser
+
+Phase 5: Reverse Proxy & SSL (Nginx & Certbot)
+
+To point your custom domain name safely to your containerized setup via port 80 (HTTP) and secure it with port 443 (HTTPS):
+1.Install Nginx:
+    #cmd:sudo apt install nginx -y
+
+2.Configure Reverse Proxy: Open the configuration file:
+ #cmd:sudo nano /etc/nginx/sites-available/django
+
+3.Paste Reverse Proxy Block: Forward external web traffic into your running Docker container container port (assuming Django runs on 8000 internally):
+    server {
+    listen 80;
+    server_name your_domain.com www.your_domain.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+4. Enable Configuration: Link the configuration file to active sites and restart Nginx:
+    #cmd: sudo ln -s /etc/nginx/sites-available/django /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+
+5.Install SSL Certbot: Secure your domain with free Let's Encrypt certificates:
+    sudo apt install certbot python3-certbot-nginx -y
+    sudo certbot --nginx -d your_domain.com -d www.your_domain.com
+
+
+To help customize the deployment commands, could you tell me:What cloud hosting provider are you planning to use?Do you already have a domain name pointed to your server IP?Is Nginx already bundled inside your docker-compose.yml, or are you using the server's native Nginx?
+
+############################################################################################
+#Run these commands inside your server terminal to verify the status:
+############################################################################################
+
+1. Check if Containers are Running
+    docker compose ps
+
+    What to look for: Your web and database containers should show a status of "Up".
+
+2. Verify Nginx Status
+    sudo systemctl status nginx
+
+    What to look for: It should say "active (running)" in green text.
+
+3.Check Live Application Logs
+    docker compose logs --tail=20
+
+    What to look for: Ensure there are no active database connection or Python crash errors showing in the terminal.
+
+    ===========================================================================================
+    Since you have a new AWS Free Tier account, you can deploy your Django-Docker project for 100% free using an EC2 Instance.
+The EC2 t2.micro (or t3.micro, depending on your region) is free for 750 hours per month for the first year, which is enough to run your server 24/7.
+Here is the exact step-by-step process to deploy your project on AWS EC2:
+------------------------------
+## 💻 Step 1: Launch your Free EC2 Instance
+
+   1. Log in to your AWS Management Console.
+   2. Search for EC2 in the top search bar and click on it.
+   3. Click the orange "Launch instance" button.
+   4. Name your instance: Type something like django-student-test.
+   5. OS Image (AMI): Select Ubuntu (Choose the Ubuntu Server 24.04 LTS - Free tier eligible version).
+   6. Instance type: Select t2.micro (or t3.micro if it says Free tier eligible in your region).
+
+------------------------------
+## 🔑 Step 2: Configure Keys and Firewall
+
+   1. Key pair (login): Click "Create new key pair".
+   * Give it a name (e.g., my-aws-key).
+      * Keep format as .pem.
+      * Click Create key pair. A file will download to your computer automatically. Keep this safe.
+   2. Network settings (Firewall): Check the following boxes:
+   * Allow SSH traffic from (Select Anywhere or My IP)
+      * Allow HTTPS traffic from the internet
+      * Allow HTTP traffic from the internet
+   3. Click the orange "Launch instance" button on the right.
+
+------------------------------
+## 🌐 Step 3: Open Custom Django Ports (If needed)
+By default, Django runs on port 8000. You need to tell AWS to allow traffic on this port.
+
+   1. On your EC2 Dashboard, click on your running instance.
+   2. Go to the Security tab at the bottom and click on your Security Group link.
+   3. Click Edit inbound rules.
+   4. Click Add rule:
+   * Type: Custom TCP
+      * Port Range: 8000
+      * Source: Anywhere-IPv4 (0.0.0.0/0)
+   5. Click Save rules.
+
+------------------------------
+## 🚀 Step 4: Connect and Run your Docker App
+Now, open the terminal on your local computer (where you downloaded the .pem key) and connect to AWS:
+
+   1. Set permissions for your key (Mac/Linux only, skip on Windows CMD):
+   
+   chmod 400 my-aws-key.pem
+   
+   2. SSH into the AWS server: (Get your instance's Public IP from the AWS dashboard)
+   
+   ssh -i "my-aws-key.pem" ubuntu@YOUR_AWS_PUBLIC_IP
+   
+   3. Install Docker inside AWS:
+   
+   sudo apt update
+   sudo apt install docker.io docker-compose-v2 git -y
+   
+   4. Clone and Run your app:
+   
+   git clone YOUR_GITHUB_REPOSITORY_LINK
+   cd YOUR_REPOSITORY_NAME# Create your .env file here like we did before
+   nano .env# Start the app
+   sudo docker compose up --build -d
+   
+   
+Once done, open your browser and go to http://YOUR_AWS_PUBLIC_IP:8000 to view your project live!
+------------------------------
+To help you manage your billing and avoid accidental charges, let me know:
+
+* Do you want me to show you how to set up an AWS billing alarm so you get an email if you ever cross the free limits?
+* Are you planning to add a domain name to this AWS server, or will you just use the raw IP address for testing?
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

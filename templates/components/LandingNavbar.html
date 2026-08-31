@@ -1,0 +1,77 @@
+<!-- ============================================================
+     NAVBAR
+============================================================= -->
+
+<header class="navbar">
+
+    <div class="container nav-container">
+
+
+        <div class="logo">
+
+            <div class="logo-circle">
+                PIM
+            </div>
+
+            <div class="logo-text">
+
+                <strong>
+                    PIM v3
+                </strong>
+
+                <small>
+                    FILM INTELLIGENCE
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <nav>
+
+            <div class="nav-links">
+
+                <a href="#platform">
+                    Platform
+                </a>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#movies">
+                    Movies
+                </a>
+
+                <a href="#reports">
+                    Reports
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </div>
+
+        </nav>
+
+
+
+        <div class="nav-buttons">
+            <!-- Replace the onclick toast button with a direct Django URL template route -->
+            <a href="{% url 'login' %}" class="btn btn-outline text-decoration-none d-inline-flex align-items-center">
+            Login
+            </a>
+
+            <a href="#register" class="btn btn-primary">
+            Request Access
+            </a>
+        </div>
+
+
+
+    </div>
+
+</header>

@@ -12,7 +12,8 @@ services:
 
   web:
     build: .
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    # command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
@@ -38,3 +39,48 @@ services:
 
 volumes:
   postgres_data:
+
+
+
+#version: '3.8'
+
+# services:
+#   db:
+#     image: postgres:15-alpine
+#     restart: always
+#     volumes:
+#       # यह लाइन डेटाबेस को आपके प्रोजेक्ट रूट के './pgdata' फोल्डर में सेव करेगी
+#       - ./pgdata:/var/lib/postgresql/data
+#       # यह लाइन नए क्लोन करने वाले के लिए बेसिक डेटाबेस सेटअप (Seed Data) करेगी
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#     environment:
+#       POSTGRES_DB: ${DATABASE_NAME:-my_project_db}
+#       POSTGRES_USER: ${DATABASE_USER:-my_project_user}
+#       POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-my_secure_password}
+
+#   web:
+#     build: .
+#     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+#     ports:
+#       - "8000:8000"
+#     environment:
+#       - DEBUG=${DEBUG:-True}
+#       - SECRET_KEY=${SECRET_KEY:-local-secret-key}
+#       - DATABASE_NAME=${DATABASE_NAME:-my_project_db}
+#       - DATABASE_USER=${DATABASE_USER:-my_project_user}
+#       - DATABASE_PASSWORD=${DATABASE_PASSWORD:-my_secure_password}
+#       - DATABASE_HOST=db
+#       - DATABASE_PORT=5432
+#     depends_on:
+#       - db
+
+#   adminer:
+#     image: adminer
+#     restart: always
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - db
+
+# # नीचे का पुराना 'volumes:' सेक्शन पूरी तरह हटा दिया गया है
+

@@ -1,0 +1,1003 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block LandingstyleCss %}
+<link rel="stylesheet" href="{% static 'css/landingPage.css' %}">
+{% endblock %}
+
+{% block landingNavBar %}
+{% include "components/LandingNavbar.html" %}
+{% endblock %}
+
+{% block content %}
+
+<!-- ============================================================
+     MAIN
+============================================================= -->
+
+<section
+    class="hero"
+    id="platform">
+
+
+<div class="container hero-grid">
+
+
+    <!-- LEFT SIDE -->
+
+    <div>
+
+
+        <div class="hero-content">
+
+
+            <div class="badge">
+
+                <span class="badge-dot"></span>
+
+                Producer Intelligence Platform
+
+            </div>
+
+
+
+            <h1 class="hero-title">
+
+                Turn Movie Buzz
+
+                <br>
+
+                Into
+
+                <span>
+                    Release Intelligence.
+                </span>
+
+            </h1>
+
+
+
+            <p class="hero-description">
+
+                PIM v3 converts trailer, asset, audience,
+                city and sentiment signals into actionable
+                producer intelligence — so you release
+                with confidence.
+
+            </p>
+
+
+
+            <div class="hero-actions">
+
+                <a
+                    href="#movies"
+                    class="btn btn-primary">
+
+                    View Movie Intelligence →
+
+                </a>
+
+
+                <button
+                    class="btn btn-outline"
+                    onclick="showToast('Demo request received.')">
+
+                    ▷ &nbsp; Book Demo
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ====================================================
+             INTELLIGENCE CARDS
+        ===================================================== -->
+
+        <div class="intelligence">
+
+
+            <!-- RELEASE -->
+
+            <div class="metric release-card">
+
+                <span class="metric-label">
+
+                    RELEASE CONFIDENCE
+
+                </span>
+
+
+                <div
+                    class="metric-value release-value"
+                    id="releaseConfidence">
+
+                    HIGH
+
+                </div>
+
+
+                <div class="release-status">
+
+                    Strong Outlook
+
+                </div>
+
+
+                <div class="growth">
+
+                    ↑ Improving Momentum
+
+                </div>
+
+
+                <div
+                    class="circle"
+                    id="confidencePercentage">
+
+                    86%
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AUDIENCE -->
+
+            <div class="metric audience-card">
+
+                <span class="metric-label">
+
+                    AUDIENCE INTENT
+
+                </span>
+
+
+                <div
+                    class="metric-value audience-value"
+                    id="audienceIntent">
+
+                    62.4%
+
+                </div>
+
+
+                <div
+                    class="growth"
+                    id="audienceGrowth">
+
+                    ↑ 8.7 pts
+
+                </div>
+
+
+                <div
+                    class="chart"
+                    id="audienceChart">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SENTIMENT -->
+
+            <div class="metric sentiment-card">
+
+                <span class="metric-label">
+
+                    SENTIMENT SCORE
+
+                </span>
+
+
+                <div
+                    class="metric-value sentiment-value"
+                    id="sentimentScore">
+
+                    78.6
+
+                </div>
+
+
+                <div class="growth">
+
+                    ↑ 4.2 pts
+
+                </div>
+
+
+                <div class="gauge"></div>
+
+            </div>
+
+
+
+            <!-- CITY -->
+
+            <div class="metric city-card">
+
+                <span class="metric-label">
+
+                    CITY INTELLIGENCE
+
+                </span>
+
+
+                <div
+                    class="city-value"
+                    id="cityMomentum">
+
+                    TIER-A MOMENTUM
+
+                </div>
+
+
+                <div
+                    class="metric-small"
+                    id="cityCount">
+
+                    12 Cities Showing Strong Uptick
+
+                </div>
+
+
+                <div
+                    class="city-bars"
+                    id="cityChart">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ====================================================
+             FEATURES
+        ===================================================== -->
+
+        <div
+            class="features"
+            id="features">
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ◎
+                </div>
+
+                <div>
+
+                    <h3>
+                        Pre-Release Intelligence
+                    </h3>
+
+                    <p>
+                        Gauge audience intent, sentiment,
+                        and trailer strength before release.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <h3>
+                        PIM RISE Command Centre
+                    </h3>
+
+                    <p>
+                        Executive dashboards for decision
+                        support and release strategy.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ⌖
+                </div>
+
+                <div>
+
+                    <h3>
+                        Distributor & City Insights
+                    </h3>
+
+                    <p>
+                        Deep city-level demand signals
+                        and distributor readiness.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================================
+         REGISTRATION
+    ========================================================= -->
+
+    <aside
+        class="register-card"
+        id="register">
+
+
+        <h2>
+            Create Your Account
+        </h2>
+
+
+        <p class="register-description">
+
+            Request access to PIM v3 and start
+            unlocking release intelligence.
+
+        </p>
+
+
+
+        <form id="registrationForm">
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="fullName"
+                    class="form-input"
+                    placeholder="Enter your full name"
+                    required>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Work Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    class="form-input"
+                    placeholder="you@company.com"
+                    required>
+
+            </div>
+
+
+
+            <!-- MOBILE -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="mobile"
+                    class="form-input"
+                    placeholder="+91 98765 43210"
+                    required>
+
+            </div>
+
+
+
+            <!-- STUDIO -->
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Production House / Studio Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studio"
+                    class="form-input"
+                    placeholder="Production house name"
+                    required>
+
+            </div>
+
+
+
+            <!-- ROLE -->
+
+            <div class="two-columns">
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Role
+                    </label>
+
+
+                    <select
+                        id="role"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Select role
+                        </option>
+
+                        <option>
+                            Producer
+                        </option>
+
+                        <option>
+                            Studio Head
+                        </option>
+
+                        <option>
+                            Marketing Team
+                        </option>
+
+                        <option>
+                            Distributor
+                        </option>
+
+                        <option>
+                            Analyst
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Number of Movies Per Year
+                    </label>
+
+
+                    <select
+                        id="moviesPerYear"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Select range
+                        </option>
+
+                        <option>
+                            1–3
+                        </option>
+
+                        <option>
+                            4–10
+                        </option>
+
+                        <option>
+                            11–25
+                        </option>
+
+                        <option>
+                            25+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- COUNTRY / PASSWORD -->
+
+            <div class="two-columns">
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Country
+                    </label>
+
+
+                    <select
+                        id="country"
+                        class="form-select"
+                        required>
+
+                        <option value="">
+                            Select country
+                        </option>
+
+                        <option>
+                            India
+                        </option>
+
+                        <option>
+                            United States
+                        </option>
+
+                        <option>
+                            United Kingdom
+                        </option>
+
+                        <option>
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        Password
+                    </label>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        class="form-input"
+                        placeholder="Create password"
+                        required>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- TERMS -->
+
+            <label class="terms">
+
+                <input
+                    type="checkbox"
+                    id="terms"
+                    required>
+
+
+                <span>
+
+                    I agree to
+
+                    <a href="#">
+                        terms
+                    </a>
+
+                    and
+
+                    <a href="#">
+                        privacy policy
+                    </a>
+
+                </span>
+
+            </label>
+
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                class="btn btn-primary submit-button">
+
+                Create Account
+
+            </button>
+
+
+
+            <p class="login-text">
+
+                Already have an account?
+
+                <a
+                    href="#"
+                    onclick="showToast('Django login will be connected here.')">
+
+                    Sign in
+
+                </a>
+
+            </p>
+
+
+        </form>
+
+
+    </aside>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ============================================================
+     WHO IS THIS FOR
+============================================================= -->
+
+<section
+    class="lower"
+    id="reports">
+
+
+<div class="container lower-grid">
+
+
+    <div>
+
+
+        <h2 class="section-title">
+
+            Who is this for?
+
+        </h2>
+
+
+
+        <div class="roles">
+
+
+            <div class="role">
+
+                <div class="role-icon">
+                    ◉
+                </div>
+
+                <strong>
+                    Producer
+                </strong>
+
+                <span>
+                    Make smarter release decisions.
+                </span>
+
+            </div>
+
+
+
+            <div class="role">
+
+                <div class="role-icon">
+                    ▥
+                </div>
+
+                <strong>
+                    Studio Head
+                </strong>
+
+                <span>
+                    Drive slate performance.
+                </span>
+
+            </div>
+
+
+
+            <div class="role">
+
+                <div class="role-icon">
+                    ⚑
+                </div>
+
+                <strong>
+                    Marketing Team
+                </strong>
+
+                <span>
+                    Plan campaigns that convert.
+                </span>
+
+            </div>
+
+
+
+            <div class="role">
+
+                <div class="role-icon">
+                    ♢
+                </div>
+
+                <strong>
+                    Distributor
+                </strong>
+
+                <span>
+                    Spot demand. Maximize reach.
+                </span>
+
+            </div>
+
+
+
+            <div class="role">
+
+                <div class="role-icon">
+                    ▥
+                </div>
+
+                <strong>
+                    Analyst
+                </strong>
+
+                <span>
+                    Track signals. Prove impact.
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- CAPABILITIES -->
+
+        <div class="capabilities">
+
+
+            <div class="capability">
+
+                <strong>
+                    🔒 Multi-movie portfolio
+                </strong>
+
+                <span>
+                    Manage your entire slate in one place.
+                </span>
+
+            </div>
+
+
+
+            <div class="capability">
+
+                <strong>
+                    ♙ Role-based access
+                </strong>
+
+                <span>
+                    Secure, granular permissions.
+                </span>
+
+            </div>
+
+
+
+            <div class="capability">
+
+                <strong>
+                    ▤ Versioned reports
+                </strong>
+
+                <span>
+                    Track every update and decision.
+                </span>
+
+            </div>
+
+
+
+            <div class="capability">
+
+                <strong>
+                    ☁ Secure cloud access
+                </strong>
+
+                <span>
+                    Enterprise-grade security and uptime.
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- HOW IT WORKS -->
+
+    <div class="how">
+
+
+        <h2 class="section-title">
+
+            How PIM v3 Works
+
+        </h2>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    1
+                </div>
+
+                <h4>
+                    Register
+                </h4>
+
+                <p>
+                    Create your account and tell us
+                    about your studio.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    2
+                </div>
+
+                <h4>
+                    Get Assigned
+                </h4>
+
+                <p>
+                    Our team assigns your workspace
+                    and access.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    3
+                </div>
+
+                <h4>
+                    View Intelligence
+                </h4>
+
+                <p>
+                    Access dashboards, reports and
+                    city insights.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ============================================================
+     MOVIE INTELLIGENCE
+============================================================= -->
+
+<section
+    class="movie-section"
+    id="movies">
+
+
+<div class="container">
+
+
+    <div class="movie-header">
+
+
+        <div>
+
+            <h2>
+                Movie Intelligence
+            </h2>
+
+            <p>
+                Sample data — ready to be replaced with Django database data.
+            </p>
+
+        </div>
+
+
+        <button
+            class="btn btn-outline"
+            onclick="refreshDashboard()">
+
+            ↻ Refresh Data
+
+        </button>
+
+
+    </div>
+
+
+
+    <div
+        class="movie-grid"
+        id="movieGrid">
+
+    </div>
+
+
+</div>
+
+</section>
+
+{% endblock %}
+{% block footer %}
+  {% include "components/footer.html" %}
+{%endblock%}
+
+
+
+
