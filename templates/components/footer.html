@@ -736,71 +736,7 @@ function showToast(message) {
 ============================================================== */
 
 
-document
-    .getElementById("registrationForm")
-    .addEventListener(
-        "submit",
-        function(event) {
-
-
-            event.preventDefault();
-
-
-            const formData = {
-
-                name:
-                    document.getElementById(
-                        "fullName"
-                    ).value,
-
-                email:
-                    document.getElementById(
-                        "email"
-                    ).value,
-
-                mobile:
-                    document.getElementById(
-                        "mobile"
-                    ).value,
-
-                studio:
-                    document.getElementById(
-                        "studio"
-                    ).value,
-
-                role:
-                    document.getElementById(
-                        "role"
-                    ).value,
-
-                moviesPerYear:
-                    document.getElementById(
-                        "moviesPerYear"
-                    ).value,
-
-                country:
-                    document.getElementById(
-                        "country"
-                    ).value
-
-            };
-
-
-            console.log(
-                "Registration Data:",
-                formData
-            );
-
-
-            showToast(
-                "Account request submitted successfully."
-            );
-
-
-            this.reset();
-
-        }
-    );
+// Registration form logic now handled by Django POST method
 
 
 

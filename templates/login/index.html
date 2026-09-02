@@ -64,28 +64,28 @@ Login - Platform Portal
             <p class="text-muted font-weight-normal mb-4">Please log in to manage your server dashboard parameters.</p>
             
          
-            <!-- Core Sign-In Django Form redirects to your dashboard route -->
-           <form class="pt-2" method="GET" action="{% url 'dashboard' %}">
-
-              {% comment %} {% csrf_token %} {% endcomment %}
+           <form class="pt-2" method="POST" action="{% url 'login' %}">
+              {% csrf_token %}
               
               <!-- Validation Errors Box -->
-              {% comment %} {% if form.errors %}
+              {% if messages %}
+                {% for message in messages %}
                 <div class="alert alert-danger py-2 border-0 rounded-3 small" role="alert">
-                  Authentication failed. Verify credentials.
+                  {{ message }}
                 </div>
-              {% endif %} {% endcomment %}
+                {% endfor %}
+              {% endif %}
 
               
               <div class="form-group mb-3">
-                <label class="form-label text-dark font-weight-medium small mb-1">Username or Email</label>
-                <input type="text" name="username" class="form-control form-control-lg border-secondary-subtle rounded-3" style="font-size: 0.95rem;" placeholder="Enter username" required>
+                <label class="form-label text-dark font-weight-medium small mb-1">Email Address</label>
+                <input type="email" name="username" class="form-control form-control-lg border-secondary-subtle rounded-3" style="font-size: 0.95rem;" placeholder="Enter your email" autocomplete="off" required>
               </div>
               
               <!-- Security Key Pass Entry -->
               <div class="form-group mb-3">
                 <label class="form-label text-dark font-weight-medium small mb-1">Password</label>
-                <input type="password" name="password" class="form-control form-control-lg border-secondary-subtle rounded-3" style="font-size: 0.95rem;" placeholder="Enter security key" required>
+                <input type="password" name="password" class="form-control form-control-lg border-secondary-subtle rounded-3" style="font-size: 0.95rem;" placeholder="Enter your password" autocomplete="off" required>
               </div>
               
               <!-- Utilities Configurations Block -->
@@ -112,7 +112,7 @@ Login - Platform Portal
               
               <!-- Registration Onboarding Relocation Navigation Hook -->
               <div class="text-center mt-4 text-muted small font-weight-light"> 
-                New administrator? <a href="#" class="text-primary font-weight-medium text-decoration-none">Request platform access</a>
+                New administrator? <a href="{% url 'landing' %}#register" class="text-primary font-weight-medium text-decoration-none">Request platform access</a>
               </div>
             </form>
 

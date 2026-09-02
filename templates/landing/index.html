@@ -373,8 +373,8 @@ Home
 
 
 
-        <form id="registrationForm">
-
+        <form id="registrationForm" method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
 
             <!-- NAME -->
 
@@ -387,6 +387,7 @@ Home
                 <input
                     type="text"
                     id="fullName"
+                    name="full_name"
                     class="form-input"
                     placeholder="Enter your full name"
                     required>
@@ -406,6 +407,7 @@ Home
                 <input
                     type="email"
                     id="email"
+                    name="email"
                     class="form-input"
                     placeholder="you@company.com"
                     required>
@@ -425,6 +427,7 @@ Home
                 <input
                     type="tel"
                     id="mobile"
+                    name="mobile"
                     class="form-input"
                     placeholder="+91 98765 43210"
                     required>
@@ -444,6 +447,7 @@ Home
                 <input
                     type="text"
                     id="studio"
+                    name="studio"
                     class="form-input"
                     placeholder="Production house name"
                     required>
@@ -466,6 +470,7 @@ Home
 
                     <select
                         id="role"
+                        name="role"
                         class="form-select"
                         required>
 
@@ -509,6 +514,7 @@ Home
 
                     <select
                         id="moviesPerYear"
+                        name="movies_per_year"
                         class="form-select"
                         required>
 
@@ -555,6 +561,7 @@ Home
 
                     <select
                         id="country"
+                        name="country"
                         class="form-select"
                         required>
 
@@ -594,6 +601,7 @@ Home
                     <input
                         type="password"
                         id="password"
+                        name="password"
                         class="form-input"
                         placeholder="Create password"
                         required>
@@ -634,6 +642,14 @@ Home
             </label>
 
 
+            {% if messages %}
+            <div class="form-group" style="margin-top: 15px;">
+                {% for message in messages %}
+                <div style="color: #ff4a4a; font-size: 0.9rem; text-align: center;">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
 
             <!-- SUBMIT -->
 
@@ -652,8 +668,7 @@ Home
                 Already have an account?
 
                 <a
-                    href="#"
-                    onclick="showToast('Django login will be connected here.')">
+                    href="{% url 'login' %}">
 
                     Sign in
 
@@ -985,7 +1000,3 @@ Home
 {% block footer %}
   {% include "components/footer.html" %}
 {%endblock%}
-
-
-
-
